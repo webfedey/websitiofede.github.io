@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compartir Enlaces y Archivos</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            background: linear-gradient(45deg, #ffcc00, #00bcd4, #4caf50, #2196f3); /* Fondo degradado */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite; /* Animación de fondo */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro y ligeramente transparente */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 550px; /* Reducir el ancho máximo del contenedor */
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin: 0 20px; /* Añadir márgenes laterales */
+        }
+
+        h1 {
+            font-size: 1.6rem;  /* Tamaño de texto mediano */
+            font-weight: bold;
+            color: #4fc3f7; /* Azul claro */
+            margin-bottom: 20px;
+        }
+
+        /* Campos de entrada */
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 12px; /* Reducir el padding */
+            margin: 12px 0; /* Reducir el margen */
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 0.9rem; /* Reducir el tamaño de la fuente */
+            background-color: #212121; /* Fondo oscuro para los campos */
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="file"]:focus {
+            border-color: #ffcc00; /* Amarillo claro */
+            background-color: #333;
+            outline: none;
+        }
+
+        /* Botones */
+        button {
+            background-color: #00bcd4; /* Celeste fuerte */
+            color: white;
+            padding: 12px 24px; /* Reducir padding */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem; /* Tamaño de texto más pequeño */
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2196f3; /* Azul claro */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilo para el mensaje de confirmación */
+        .confirmation-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #00ff99; /* Verde neón */
+            color: #388e3c;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 1px solid #388e3c;
+            font-size: 1rem;
+            display: none;
+            text-transform: uppercase;
+        }
+
+        /* Mensajes de alerta y advertencia */
+        .alert {
+            color: #d32f2f;
+            background-color: #fff3e0;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #d32f2f;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .warning {
+            color: #d32f2f;
+            background-color: #fff3e0;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Estilo del botón Atrás */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #4caf50; /* Verde */
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #388e3c; /* Verde más oscuro */
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Botón Atrás -->
+    <a href="adentrocomunidad1.html" class="back-button">Atrás</a>
+
+    <div class="container">
+        <h1>Comparte tus enlaces y materiales educativos de manera personalizada, sin obligación.</h1> <!-- Título actualizado -->
+
+        <!-- Mensaje de alerta si no se han ingresado datos -->
+        <div id="alertMessage" class="alert">
+            Debes ingresar al menos un enlace o subir un archivo.
+        </div>
+
+        <!-- Mensaje de advertencia si no se ha llenado el campo "Nombre de la materia" -->
+        <div id="warningMessage" class="warning">
+            Tendrás que poner el nombre de la materia porque es obligatorio.
+        </div>
+
+        <!-- Campos de entrada -->
+        <div id="formFields">
+            <label for="nombre">Nombre de la materia</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <input type="text" id="googleDriveLink" placeholder="Introduce enlace de Google Drive">
+            <input type="text" id="oneDriveLink" placeholder="Introduce enlace de OneDrive">
+            <input type="text" id="telegramLink" placeholder="Introduce enlace de Telegram">
+            <input type="text" id="googleClassroomLink" placeholder="Introduce enlace de Google Classroom">
+
+            <p style="font-size: 0.9rem; color: #888;">
+                Aceptados: PDF, Word (.doc, .docx), PowerPoint (.ppt, .pptx). No se permiten fotos ni videos.
+            </p>
+
+            <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.ppt,.pptx">
+
+            <!-- Botón para guardar los datos -->
+            <div class="button-container">
+                <button onclick="submitData()">Guardar</button>
+            </div>
+        </div>
+
+        <!-- Mensaje de confirmación: Los datos están guardados para su verificación -->
+        <div id="verificationMessage" class="confirmation-message">
+            Los datos están guardados para su verificación.
+        </div>
+
+        <!-- Botón de acceso al contenido siempre visible debajo del botón de guardar -->
+        <div id="accessButtonContainer" style="margin-top: 20px;">
+            <a href="usuario.html">
+                <button>Acceso al contenido</button>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        function submitData() {
+            // Obtener los valores de los enlaces
+            const googleDriveLink = document.getElementById('googleDriveLink').value;
+            const oneDriveLink = document.getElementById('oneDriveLink').value;
+            const telegramLink = document.getElementById('telegramLink').value;
+            const googleClassroomLink = document.getElementById('googleClassroomLink').value;
+            const nombreMateria = document.getElementById('nombre').value;
+
+            // Obtener el archivo subido
+            const fileUpload = document.getElementById('fileUpload').files[0];
+
+            // Validar si el nombre de la materia está vacío
+            if (!nombreMateria) {
+                document.getElementById('warningMessage').style.display = 'block';
+                return; // Detener el proceso si no se ha llenado el nombre de la materia
+            } else {
+                document.getElementById('warningMessage').style.display = 'none';
+            }
+
+            // Validar si no se ingresó ningún enlace ni archivo
+            if (!googleDriveLink && !oneDriveLink && !telegramLink && !googleClassroomLink && !fileUpload) {
+                document.getElementById('alertMessage').style.display = 'block';
+                return; // Detener el proceso si no se ha proporcionado ningún enlace ni archivo
+            } else {
+                document.getElementById('alertMessage').style.display = 'none';
+            }
+
+            // Leer el archivo si existe
+            let fileUrl = '';
+            if (fileUpload) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    fileUrl = event.target.result;
+                    storeData(nombreMateria, googleDriveLink, oneDriveLink, telegramLink, googleClassroomLink, fileUrl);
+                };
+                reader.readAsDataURL(fileUpload);
+            } else {
+                storeData(nombreMateria, googleDriveLink, oneDriveLink, telegramLink, googleClassroomLink, fileUrl);
+            }
+
+            // Mostrar el primer mensaje de verificación
+            document.getElementById('verificationMessage').style.display = 'block';
+
+            // Limpiar los campos
+            document.getElementById('googleDriveLink').value = '';
+            document.getElementById('oneDriveLink').value = '';
+            document.getElementById('telegramLink').value = '';
+            document.getElementById('googleClassroomLink').value = '';
+            document.getElementById('fileUpload').value = '';
+            document.getElementById('nombre').value = '';
+        }
+
+        function storeData(nombreMateria, googleDriveLink, oneDriveLink, telegramLink, googleClassroomLink, fileUrl) {
+            const data = {
+                NombreAprendizaje: nombreMateria,
+                googleDrive: googleDriveLink,
+                oneDrive: oneDriveLink,
+                telegram: telegramLink,
+                googleClassroom: googleClassroomLink,
+                file: fileUrl
+            };
+
+            let submittedData = JSON.parse(localStorage.getItem('submittedData')) || [];
+            submittedData.push(data);
+            localStorage.setItem('submittedData', JSON.stringify(submittedData));
+        }
+    </script>
+</body>
+</html>

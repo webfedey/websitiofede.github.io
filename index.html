@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registro e Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        p1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: darkorange;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #f0f0f0;
+        }
+
+        label {
+            font-size: 14px;
+            color: #f0f0f0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6a11cb;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .toggle-button {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            font-size: 14px;
+            padding: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            background-color: #2575fc;
+        }
+
+        .forgot-password-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            width: 120px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #6a11cb;
+            color: white;
+            border: 2px solid #ffffff;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2575fc;
+        }
+
+        p {
+            font-size: 12px;
+            color: #f0f0f0;
+            text-align: center;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href = 'iniciocomunidadconf.html'">
+        ← Atrás
+    </button>
+  <button class="back-button" onclick="window.location.href = 'ubicacion.html'">
+        sig1
+  </button>
+  <button class="back-button" onclick="window.location.href = 'usuario.html'">
+        sig2
+    </button>
+
+    <!-- Formulario de Registro -->
+    <div class="wrapper" id="registroForm">
+        <p1>Registro de usuario</p1>
+        <h1>Formulario de Registro</h1>
+        <form id="registro-form">
+            <div class="input-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Tu Nombre" required>
+            </div>
+            <div class="input-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" placeholder="Tu Apellido" required>
+            </div>
+            <div class="input-group">
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" placeholder="Tu Correo" required>
+            </div>
+            <div class="input-group">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" placeholder="Tu Contraseña" required>
+            </div>
+            <div class="input-group">
+                <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+                <input type="password" id="confirmar-contrasena" placeholder="Confirma tu Contraseña" required>
+            </div>
+            <button type="submit" id="registro-btn">Registrarse</button>
+            <div id="registro-loading" class="loading">Procesando registro...</div>
+            <button type="button" class="toggle-button" onclick="toggleForm('loginForm')">¿Ya tienes cuenta? Inicia sesión aquí.</button>
+        </form>
+    </div>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <div class="wrapper" id="loginForm">
+        <h1>Iniciar Sesión</h1>
+        <form id="loginFormSubmit">
+            <div class="input-group">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Contraseña:</label>
+                <input type="password" id="loginPassword" name="contrasena" required>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+            <button type="button" class="toggle-button" onclick="toggleForm('registroForm')">¿Aún no tienes cuenta? Regístrate aquí.</button>
+            <button type="button" class="forgot-password-button" onclick="window.location.href = 'GeneradorCodigo.html';">
+                ¿Olvidaste tu contraseña? Haz clic aquí para recuperarla.
+            </button>
+        </form>
+        <div id="errorMessage" class="error-message">
+            Email o contraseña incorrectos.
+        </div>
+    </div>
+
+    <script>
+        // Función para alternar entre formularios
+        function toggleForm(formId) {
+            document.getElementById('registroForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        // Mostrar formulario de registro al cargar
+        window.onload = function() {
+            toggleForm('registroForm');
+        };
+
+        // Manejar el registro de usuario
+        document.getElementById('registro-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('registro-btn');
+            const loading = document.getElementById('registro-loading');
+            
+            // Validar contraseñas
+            const contrasena = document.getElementById('contrasena').value;
+            const confirmarContrasena = document.getElementById('confirmar-contrasena').value;
+            
+            if (contrasena !== confirmarContrasena) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.style.display = 'block';
+            
+            try {
+                // Obtener datos del formulario
+                const usuario = {
+                    nombre: document.getElementById('nombre').value,
+                    apellido: document.getElementById('apellido').value,
+                    correo: document.getElementById('correo').value,
+                    contrasena: contrasena,
+                    fecha: new Date().toLocaleString(),
+                    dispositivo: navigator.userAgent,
+                    ubicacion: "No especificada", // Valor por defecto
+                    ip: "No especificada" // Valor por defecto
+                };
+                
+                // Intentar obtener IP (pero no es crítico si falla)
+                try {
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    usuario.ip = ipData.ip;
+                } catch (error) {
+                    console.log("No se pudo obtener la IP:", error);
+                }
+                
+                // Intentar obtener ubicación (pero no es crítico si falla)
+                try {
+                    const ubicacion = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            position => resolve({
+                                latitud: position.coords.latitude,
+                                longitud: position.coords.longitude
+                            }),
+                            error => reject(error),
+                            {timeout: 5000} // Timeout de 5 segundos
+                        );
+                    });
+                    usuario.ubicacion = `Lat: ${ubicacion.latitud}, Lon: ${ubicacion.longitud}`;
+                } catch (error) {
+                    console.log("No se pudo obtener la ubicación:", error);
+                }
+                
+                // Guardar usuario
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                usuarios.push(usuario);
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                
+                // Mostrar éxito y cambiar a login
+                alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+                toggleForm('loginForm');
+                
+                // Autorellenar el email en el login
+                document.getElementById('loginEmail').value = usuario.correo;
+                
+            } catch (error) {
+                console.error("Error en el registro:", error);
+                alert("Ocurrió un error durante el registro. Por favor intenta nuevamente.");
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        // Manejar inicio de sesión
+        document.getElementById('loginFormSubmit').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const contrasena = document.getElementById('loginPassword').value;
+            
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(u => u.correo === email && u.contrasena === contrasena);
+            
+            if (usuario) {
+                // Redirigir a la página principal
+                window.location.href = 'adentrocomunidad1.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+  </html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registro e Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        p1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: darkorange;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #f0f0f0;
+        }
+
+        label {
+            font-size: 14px;
+            color: #f0f0f0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6a11cb;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .toggle-button {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            font-size: 14px;
+            padding: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            background-color: #2575fc;
+        }
+
+        .forgot-password-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            width: 120px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #6a11cb;
+            color: white;
+            border: 2px solid #ffffff;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2575fc;
+        }
+
+        p {
+            font-size: 12px;
+            color: #f0f0f0;
+            text-align: center;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href = 'iniciocomunidadconf.html'">
+        ← Atrás
+    </button>
+
+    <!-- Formulario de Registro -->
+    <div class="wrapper" id="registroForm">
+        <p1>Registro de usuario</p1>
+        <h1>Formulario de Registro</h1>
+        <form id="registro-form">
+            <div class="input-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Tu Nombre" required>
+            </div>
+            <div class="input-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" placeholder="Tu Apellido" required>
+            </div>
+            <div class="input-group">
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" placeholder="Tu Correo" required>
+            </div>
+            <div class="input-group">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" placeholder="Tu Contraseña" required>
+            </div>
+            <div class="input-group">
+                <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+                <input type="password" id="confirmar-contrasena" placeholder="Confirma tu Contraseña" required>
+            </div>
+            <button type="submit" id="registro-btn">Registrarse</button>
+            <div id="registro-loading" class="loading">Procesando registro...</div>
+            <button type="button" class="toggle-button" onclick="toggleForm('loginForm')">¿Ya tienes cuenta? Inicia sesión aquí.</button>
+        </form>
+    </div>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <div class="wrapper" id="loginForm">
+        <h1>Iniciar Sesión</h1>
+        <form id="loginFormSubmit">
+            <div class="input-group">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Contraseña:</label>
+                <input type="password" id="loginPassword" name="contrasena" required>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+            <button type="button" class="toggle-button" onclick="toggleForm('registroForm')">¿Aún no tienes cuenta? Regístrate aquí.</button>
+            <button type="button" class="forgot-password-button" onclick="window.location.href = 'GeneradorCodigo.html';">
+                ¿Olvidaste tu contraseña? Haz clic aquí para recuperarla.
+            </button>
+        </form>
+        <div id="errorMessage" class="error-message">
+            Email o contraseña incorrectos.
+        </div>
+    </div>
+
+    <script>
+        // Función para alternar entre formularios
+        function toggleForm(formId) {
+            document.getElementById('registroForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        // Mostrar formulario de registro al cargar
+        window.onload = function() {
+            toggleForm('registroForm');
+        };
+
+        // Manejar el registro de usuario
+        document.getElementById('registro-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('registro-btn');
+            const loading = document.getElementById('registro-loading');
+            
+            // Validar contraseñas
+            const contrasena = document.getElementById('contrasena').value;
+            const confirmarContrasena = document.getElementById('confirmar-contrasena').value;
+            
+            if (contrasena !== confirmarContrasena) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.style.display = 'block';
+            
+            try {
+                // Obtener datos del formulario
+                const usuario = {
+                    nombre: document.getElementById('nombre').value,
+                    apellido: document.getElementById('apellido').value,
+                    correo: document.getElementById('correo').value,
+                    contrasena: contrasena,
+                    fecha: new Date().toLocaleString(),
+                    dispositivo: navigator.userAgent,
+                    ubicacion: "No especificada", // Valor por defecto
+                    ip: "No especificada" // Valor por defecto
+                };
+                
+                // Intentar obtener IP (pero no es crítico si falla)
+                try {
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    usuario.ip = ipData.ip;
+                } catch (error) {
+                    console.log("No se pudo obtener la IP:", error);
+                }
+                
+                // Intentar obtener ubicación (pero no es crítico si falla)
+                try {
+                    const ubicacion = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            position => resolve({
+                                latitud: position.coords.latitude,
+                                longitud: position.coords.longitude
+                            }),
+                            error => reject(error),
+                            {timeout: 5000} // Timeout de 5 segundos
+                        );
+                    });
+                    usuario.ubicacion = `Lat: ${ubicacion.latitud}, Lon: ${ubicacion.longitud}`;
+                } catch (error) {
+                    console.log("No se pudo obtener la ubicación:", error);
+                }
+                
+                // Guardar usuario
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                usuarios.push(usuario);
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                
+                // Mostrar éxito y cambiar a login
+                alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+                toggleForm('loginForm');
+                
+                // Autorellenar el email en el login
+                document.getElementById('loginEmail').value = usuario.correo;
+                
+            } catch (error) {
+                console.error("Error en el registro:", error);
+                alert("Ocurrió un error durante el registro. Por favor intenta nuevamente.");
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        // Manejar inicio de sesión
+        document.getElementById('loginFormSubmit').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const contrasena = document.getElementById('loginPassword').value;
+            
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(u => u.correo === email && u.contrasena === contrasena);
+            
+            if (usuario) {
+                // Redirigir a la página principal
+                window.location.href = 'adentrocomunidad1.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

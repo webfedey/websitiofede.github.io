@@ -1,0 +1,153 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ubicación y Datos de Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #A0D8FF, #FFB6C1, #6A5ACD, #FFFF99);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            border: 2px solid #A0D8FF;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2575FC;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #2575FC;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F4F4F4;
+        }
+
+        tr:hover {
+            background-color: #FFB6C1;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #2575FC;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sistema Monitoreo control al usuario</h1>
+
+        <!-- Tabla para mostrar los datos de los usuarios -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>IP</th>
+                    <th>Ubicación</th>
+                    <th>Dispositivo</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody id="usuarios-list">
+                <!-- Aquí se cargarán los datos de los usuarios -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        // Función para obtener la ubicación del usuario mediante ip-api
+        function obtenerUbicacion(ip) {
+            return fetch(`http://ip-api.com/json/${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    return {
+                        pais: data.country,
+                        provincia: data.regionName,
+                        localidad: data.city
+                    };
+                })
+                .catch(error => {
+                    console.error('Error al obtener la ubicación:', error);
+                    return { pais: 'Desconocido', provincia: 'Desconocido', localidad: 'Desconocido' };
+                });
+        }
+
+        // Función para mostrar los usuarios almacenados en localStorage
+        async function mostrarUsuarios() {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const listaUsuarios = document.getElementById('usuarios-list');
+            listaUsuarios.innerHTML = ''; // Limpiar la tabla antes de mostrar los usuarios
+
+            for (const usuario of usuarios) {
+                const { nombre, apellido, correo, ip, dispositivo, fecha } = usuario;
+
+                // Obtener ubicación del usuario
+                const ubicacion = await obtenerUbicacion(ip);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${nombre}</td>
+                    <td>${apellido}</td>
+                    <td>${correo}</td>
+                    <td>${ip}</td>
+                    <td>${ubicacion.pais}, ${ubicacion.provincia}, ${ubicacion.localidad}</td>
+                    <td>${dispositivo}</td>
+                    <td>${fecha}</td>
+                `;
+                listaUsuarios.appendChild(row);
+            }
+        }
+
+        // Cargar los usuarios cuando se cargue la página
+        window.onload = mostrarUsuarios;
+    </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0e68c, #d3ad7f, #add8e6);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff0099, 0 0 30px #ff0099;
+        }
+
+        .table-container {
+            width: 90%;
+            max-width: 1000px; /* Ajustamos el tamaño máximo de la tabla */
+            margin: 40px auto;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px; /* Tamaño moderado de las celdas */
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px; /* Tamaño de fuente moderado */
+        }
+
+        th {
+            background-color: #f0e68c;
+            color: #000;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #ff6666;
+        }
+
+        /* Estilo para el enlace de descarga */
+        a.download-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #4CAF50; /* Fondo verde para el enlace */
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        a.download-link:hover {
+            background-color: #45a049; /* Fondo verde oscuro cuando se pasa el ratón */
+            transform: translateY(-2px); /* Efecto de levantamiento */
+        }
+
+        a.download-link:active {
+            background-color: #388e3c; /* Fondo verde aún más oscuro cuando se hace clic */
+            transform: translateY(0); /* Desaparece el efecto de levantamiento al hacer clic */
+        }
+
+        /* Evitar que la tabla se desborde horizontalmente */
+        table {
+            table-layout: fixed; /* Esto asegura que las columnas tengan un tamaño uniforme */
+            width: 100%;
+        }
+
+        th, td {
+            word-wrap: break-word; /* Esto asegura que el texto largo se ajuste dentro de las celdas */
+        }
+
+        /* Mejorar el estilo del contenedor de la tabla */
+        .table-container {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        /* Estilo para la IP */
+        #ip-container {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+
+   
+
+
+      /* Estilos generales del fondo y fuente */
+    body {
+      margin: 0; /* Elimina márgenes por defecto */
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4; /* Color de fondo de la página */
+    }
+
+    /* Contenedor del botón ubicado en la esquina superior izquierda */
+    .contenedor-boton {
+      position: absolute; /* Posicionamiento absoluto */
+      top: 20px;           /* Separación desde arriba */
+      left: 20px;          /* Separación desde la izquierda */
+    }
+
+    /* Estilo visual del botón */
+    .boton-atras {
+      padding: 10px 20px;
+      background-color: #007BFF; /* Azul principal */
+      color: white;              /* Texto blanco */
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    /* Efecto al pasar el mouse */
+    .boton-atras:hover {
+      background-color: #0056b3; /* Azul más oscuro */
+      transform: scale(1.05);    /* Agranda un poco */
+    }
+
+    /* Efecto al hacer clic */
+    .boton-atras:active {
+      transform: scale(0.97);    /* Se encoge un poco */
+    }      
+    </style>
+</head>
+<body>
+ <!-- Enlace que actúa como botón y lleva a aguerrar.html -->
+  <div class="contenedor-boton">
+    <a href="aguerrar.html" class="boton-atras">← Volver Atrás</a>
+  </div>
+    <h1>Bienvenido, Usuario</h1>
+    <p>A continuación, se muestran los archivos aprobados por el administrador para su descarga:</p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="7">Solicitud aprobado</th>
+                </tr>
+                <tr>
+                    <th>Nombre Aprendizaje</th>
+                    <th>Google Drive</th>
+                    <th>OneDrive</th>
+                    <th>Telegram</th>
+                    <th>Google Classroom</th>
+                    <th>informacion archivada</th>
+                    <th>IP detectada para su control y seguimiento.</th> <!-- Columna para IP -->
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <!-- Las filas se agregarán con JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Contenedor para mostrar la IP -->
+    <div id="ip-container">
+        Cargando IP...
+    </div>
+
+    <script>
+        window.onload = function() {
+            loadApprovedData();
+            getUserIP();
+        };
+
+        function loadApprovedData() {
+            const approvedData = JSON.parse(localStorage.getItem('approvedDataForUser')) || [];
+            const userIP = localStorage.getItem('userIP'); // Usar la IP almacenada en el localStorage
+
+            const dataTableBody = document.getElementById('dataTable');
+            dataTableBody.innerHTML = '';
+
+            if (approvedData.length === 0) {
+                dataTableBody.innerHTML = '<tr><td colspan="7">No hay archivos aprobados.</td></tr>';
+                return;
+            }
+
+            approvedData.forEach((data) => {
+                const row = document.createElement('tr');
+                
+                // Enlace para descargar el archivo si está presente
+                const archivedInfo = data.file ? 
+                    `<a class="download-link" href="${data.file}" download>Descargar archivo</a>` : '';
+
+                row.innerHTML = `
+                    <td>${data.learningName || ''}</td>
+                    <td>${data.googleDrive || ''}</td>
+                    <td>${data.oneDrive || ''}</td>
+                    <td>${data.telegram || ''}</td>
+                    <td>${data.googleClassroom || ''}</td>
+                    <td>${archivedInfo || ''}</td>
+                    <td>${userIP || 'Cargando...'}</td> <!-- Mostrar IP del usuario -->
+                `;
+                dataTableBody.appendChild(row);
+            });
+        }
+
+        function getUserIP() {
+            // Usando la API de ipify para obtener la IP del usuario
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ipContainer = document.getElementById('ip-container');
+                    ipContainer.innerHTML = `Tu IP pública es: ${data.ip}`;
+
+                    // Guardar la IP en el localStorage para su uso posterior en la tabla
+                    localStorage.setItem('userIP', data.ip);
+                    loadApprovedData();  // Volver a cargar los datos después de obtener la IP
+                })
+                .catch(error => {
+                    console.error('Error al obtener la IP:', error);
+                    document.getElementById('ip-container').innerHTML = 'No se pudo obtener la IP.';
+                });
+        }
+    </script>
+
+</body>
+</html>
